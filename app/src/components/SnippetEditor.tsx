@@ -35,7 +35,8 @@ const SnippetEditor: React.FC<SnippetEditorProps> = ({
         setIsFocused(false);
       }}
       onBlur={(e) => {
-        if (e.relatedTarget) return;
+        if (e.relatedTarget && e.currentTarget.contains(e.relatedTarget))
+          return;
         setIsFocused(false);
       }}
     >
