@@ -69,6 +69,8 @@ export default function App() {
           <SnippetEditor
             snippet={{ id: null, text: "" }}
             onSave={handleCreateNew}
+            onCancel={() => setIsAddingNewSnippet(false)}
+            onDelete={() => setIsAddingNewSnippet(false)}
           />
         )}
       </div>

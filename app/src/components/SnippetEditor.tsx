@@ -11,6 +11,7 @@ interface SnippetEditorProps {
   placeholder?: string;
   className?: string;
   onDelete?: () => void;
+  onCancel?: () => void;
   onSave: (snippet: SnippetEdit) => void;
 }
 
@@ -19,6 +20,7 @@ const SnippetEditor: React.FC<SnippetEditorProps> = ({
   placeholder = "Enter your text here...",
   className = "",
   onDelete,
+  onCancel,
   onSave,
 }) => {
   const [value, setValue] = useState(snippet.text);
@@ -47,6 +49,7 @@ const SnippetEditor: React.FC<SnippetEditorProps> = ({
         />
       </div>
       <div
+        data-testid="snippet-buttons"
         className={`mt-4 flex justify-between ${
           isFocused ? "visible" : "invisible"
         }`}
@@ -66,6 +69,7 @@ const SnippetEditor: React.FC<SnippetEditorProps> = ({
             onClick={() => {
               setValue(snippet.text);
               setIsFocused(false);
+              if (onCancel) onCancel();
             }}
             className="bg-gray-600 hover:bg-gray-700"
           >

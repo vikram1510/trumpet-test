@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 interface UseQueryState<T> {
   data: T | null;
@@ -13,26 +13,25 @@ export const useQuery = <T>(queryFn: () => Promise<T>) => {
     error: null,
   });
 
-  const refetch = useCallback(async () => {
-    setState((prev) => ({ ...prev, loading: true, error: null }));
-    try {
-      const result = await queryFn();
-      setState({ data: result, loading: false, error: null });
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "An error occurred";
-      setState({ data: null, loading: false, error: errorMessage });
-    }
-  }, [queryFn]);
-
   useEffect(() => {
-    refetch();
-  }, [refetch]);
+    const fetchData = async () => {
+      setState((prev) => ({ ...prev, loading: true, error: null }));
+      try {
+        const result = await queryFn();
+        setState({ data: result, loading: false, error: null });
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : "An error occurred";
+        setState({ data: null, loading: false, error: errorMessage });
+      }
+    };
+
+    fetchData();
+  }, [queryFn]);
 
   return {
     ...state,
     update: (updater: (prevData: T | null) => T | null) =>
       setState((prev) => ({ ...prev, data: updater(prev.data) })),
-    refetch,
   };
 };
