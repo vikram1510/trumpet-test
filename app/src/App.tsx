@@ -15,6 +15,7 @@ export default function App() {
   } = useQuery(snippetApi.getSnippets);
   const createSnippetMutation = useMutate(snippetApi.createSnippet);
   const updateSnippetMutation = useMutate(snippetApi.updateSnippet);
+  const deleteSnippetMutation = useMutate(snippetApi.deleteSnippet);
 
   const handleCreateNew = async (snippet: SnippetEdit) => {
     createSnippetMutation
@@ -38,8 +39,16 @@ export default function App() {
             return s;
           });
         });
-      })
-      .finally(() => setIsAddingNewSnippet(false));
+      });
+  };
+
+  const handleDelete = async (id: number) => {
+    deleteSnippetMutation.mutate(id).then((result) => {
+      if (!result && deleteSnippetMutation.error) return;
+      update((existingSnippets) => {
+        return existingSnippets!.filter((s) => s.id !== id);
+      });
+    });
   };
 
   if (loading) return <div>Loading</div>;
@@ -62,7 +71,11 @@ export default function App() {
 
         {snippetsData.map((snippet) => (
           <div key={snippet.id} className="mb-6">
-            <SnippetEditor snippet={snippet} onSave={handleUpdate} />
+            <SnippetEditor
+              snippet={snippet}
+              onSave={handleUpdate}
+              onDelete={() => handleDelete(snippet.id)}
+            />
           </div>
         ))}
         {isAddingNewSnippet && (

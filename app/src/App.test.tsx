@@ -148,4 +148,33 @@ describe("App", () => {
       screen.queryByPlaceholderText("Enter your text here...")
     ).not.toBeInTheDocument();
   });
+
+  it("handles delete snippet successfully", async () => {
+    const existingSnippets = [
+      { id: 1, text: "First snippet" },
+      { id: 2, text: "Second snippet" },
+    ];
+
+    mockSnippetApi.getSnippets.mockResolvedValue(existingSnippets);
+    mockSnippetApi.deleteSnippet.mockResolvedValue(undefined);
+
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByDisplayValue("First snippet")).toBeInTheDocument();
+      expect(screen.getByDisplayValue("Second snippet")).toBeInTheDocument();
+    });
+
+    const deleteButtons = screen.getAllByText("Delete");
+    fireEvent.click(deleteButtons[0]);
+
+    await waitFor(() => {
+      expect(mockSnippetApi.deleteSnippet).toHaveBeenCalledWith(1);
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByDisplayValue("First snippet")).not.toBeInTheDocument();
+      expect(screen.getByDisplayValue("Second snippet")).toBeInTheDocument();
+    });
+  });
 });
