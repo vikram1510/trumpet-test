@@ -3,10 +3,11 @@ export interface Snippet {
   text: string;
 }
 
-export interface CreateSnippetRequest {
+export interface CreateSnippetPayload {
   text: string;
 }
 
-export interface UpdateSnippetRequest {
+export interface UpdateSnippetPayload {
+  id: number;
   text: string;
 }

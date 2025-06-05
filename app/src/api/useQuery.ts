@@ -31,7 +31,8 @@ export const useQuery = <T>(queryFn: () => Promise<T>) => {
 
   return {
     ...state,
-    setState,
+    update: (updater: (prevData: T | null) => T | null) =>
+      setState((prev) => ({ ...prev, data: updater(prev.data) })),
     refetch,
   };
 };

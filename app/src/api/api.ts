@@ -1,8 +1,8 @@
 import axios from "axios";
 import type {
   Snippet,
-  CreateSnippetRequest,
-  UpdateSnippetRequest,
+  CreateSnippetPayload,
+  UpdateSnippetPayload,
 } from "./types";
 
 const API_BASE_URL = "http://localhost:4000";
@@ -20,16 +20,15 @@ export const snippetApi = {
     return response.data;
   },
 
-  createSnippet: async (data: CreateSnippetRequest): Promise<Snippet> => {
-    const response = await api.post<Snippet>("/snippets", data);
+  createSnippet: async (payload: CreateSnippetPayload): Promise<Snippet> => {
+    const response = await api.post<Snippet>("/snippets", payload);
     return response.data;
   },
 
-  updateSnippet: async (
-    id: number,
-    data: UpdateSnippetRequest
-  ): Promise<Snippet> => {
-    const response = await api.patch<Snippet>(`/snippets/${id}`, data);
+  updateSnippet: async (payload: UpdateSnippetPayload): Promise<Snippet> => {
+    const response = await api.patch<Snippet>(`/snippets/${payload.id}`, {
+      text: payload.text,
+    });
     return response.data;
   },
 
