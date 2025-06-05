@@ -1,8 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const { validateTextLength } = require('./validation');
 const app = express();
 const port = 4000;
 
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
 app.use(express.json());
 
 let snippets = [];

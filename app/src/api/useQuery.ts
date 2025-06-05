@@ -31,6 +31,7 @@ export const useQuery = <T>(queryFn: () => Promise<T>) => {
 
   return {
     ...state,
+    setState,
     refetch,
   };
 };
