@@ -57,6 +57,7 @@ The frontend will be running on `http://localhost:5173`
 
 ```bash
 cd api
+npm install
 npm test
 ```
 
@@ -64,23 +65,9 @@ npm test
 
 ```bash
 cd app
+npm install
 npm test
 ```
-
-## Available Scripts
-
-### Backend (api/)
-
-- `npm start` - Start the Express server
-- `npm test` - Run Jest tests
-
-### Frontend (app/)
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run lint` - Run ESLint
-- `npm run preview` - Preview production build
-- `npm test` - Run Vitest tests
 
 ## Technology Stack
 
