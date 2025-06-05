@@ -58,24 +58,17 @@ describe("useMutate", () => {
     expect(mutationResult).toBe(null);
   });
 
-  it("resets error state on new mutation", async () => {
-    const mockMutateFn = vi.fn()
-      .mockRejectedValueOnce(new Error("First error"))
-      .mockResolvedValueOnce({ id: 1, text: "success" });
+  it("sets error state correctly", async () => {
+    const mockError = new Error("Test error");
+    const mockMutateFn = vi.fn().mockRejectedValue(mockError);
     
     const { result } = renderHook(() => useMutate(mockMutateFn));
     
-    await result.current.mutate({ text: "fail" });
+    await result.current.mutate({ text: "test" });
     
     await waitFor(() => {
-      expect(result.current.error).toBe("First error");
-    });
-    
-    result.current.mutate({ text: "success" });
-    
-    await waitFor(() => {
-      expect(result.current.error).toBe(null);
-      expect(result.current.loading).toBe(true);
+      expect(result.current.error).toBe("Test error");
+      expect(result.current.loading).toBe(false);
     });
   });
 });

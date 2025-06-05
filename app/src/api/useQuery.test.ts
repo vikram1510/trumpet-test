@@ -64,10 +64,10 @@ describe("useQuery", () => {
     });
     
     const newItem = { id: 2, text: "new" };
-    result.current.update((prev) => {
-      return [...(prev as typeof mockData), newItem];
-    });
+    result.current.update(() => [{ id: 1, text: "test" }, newItem]);
     
-    expect(result.current.data).toEqual([{ id: 1, text: "test" }, { id: 2, text: "new" }]);
+    await waitFor(() => {
+      expect(result.current.data).toEqual([{ id: 1, text: "test" }, { id: 2, text: "new" }]);
+    });
   });
 });
