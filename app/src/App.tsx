@@ -17,6 +17,7 @@ export default function App() {
   const updateSnippetMutation = useMutate(snippetApi.updateSnippet);
   const deleteSnippetMutation = useMutate(snippetApi.deleteSnippet);
 
+  // Use pessimistic state updates to update the data
   const handleCreateNew = async (snippet: SnippetEdit) => {
     createSnippetMutation
       .mutate({ text: snippet.text })
